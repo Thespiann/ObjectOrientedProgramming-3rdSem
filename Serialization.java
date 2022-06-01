@@ -1,38 +1,61 @@
 package com.myproject;
+import java.util.*;
 import java.io.*;
-import java.util.Scanner;
 
-public class Serialization {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+public class Serialize {
+    private static int counter = 0;
+    public static int getCounter(){return counter;}
+    void RegisterAnimals() throws IOException {
+        System.out.println("How many animals would you like to register?");
+        Scanner sc = new Scanner(System.in);    //System.in is a standard input stream
+        int howMany = sc.nextInt();
+        System.out.println("Okay, " + howMany + " animal(s):");
+        List<Animal> animals= new ArrayList<Animal>();
+
+        for (int i = 1; i <= howMany; i++) {
+            counter++;
+            Animal newAnimal= new Animal();
+
+            System.out.println("What is animal number " + i + "'s name?");
+            String tempName = sc.next();
+            newAnimal.setName(tempName);
 
 
-        Animal Cow = new Animal();
-        Cow.setCode("1234");
-        Cow.setName("Qwerty");
-        Cow.setAnimalClass("Mammal");
-        Cow.setAnimalSpecies("Cow");
-        Cow.setMass(150.20f);
-        Cow.setAge(5);
-        FileOutputStream fileOut = new FileOutputStream("myAnimal.ser");
+
+            System.out.println("What is " + tempName+ "'s code?");
+            String tempCode = sc.next();
+            newAnimal.setCode(tempCode);
+
+
+            System.out.println("What is " + tempName + "'s class?");
+            String tempClass = sc.next();
+            newAnimal.setAnimalClass(tempClass);
+
+
+            System.out.println("What is " + tempName + "'s species?");
+            String tempSpecies = sc.next();
+            newAnimal.setAnimalSpecies(tempSpecies);
+
+
+            System.out.println("What is " + tempName + "'s Mass?(in kg)");
+            String tempMass = sc.next();
+            newAnimal.setMass(tempMass);
+
+
+
+            System.out.println("What is " + tempName + "'s approximate maximum age?");
+            String tempAge = sc.next();
+            newAnimal.setAge(tempAge);
+
+
+            animals.add(newAnimal);
+
+        }
+        FileOutputStream fileOut = new FileOutputStream("newAnimal.ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(Cow);
+        out.writeObject(animals);
         out.close();
         fileOut.close();
 
-
-        Animal MyCow = null;
-        FileInputStream fileIn = new FileInputStream("myAnimal.ser");
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        MyCow = (Animal) in.readObject();
-        in.close();
-        fileIn.close();
-        System.out.println("I got all your info!");
-        System.out.println("Name: " + MyCow.getName());
-        System.out.println("Species: " + MyCow.getAnimalSpecies());
-        System.out.println("Class: " + MyCow.getAnimalClass());
-        System.out.println("Code: " + MyCow.getCode());
-        System.out.println("Mass: " + MyCow.getMass());
-        System.out.println("Max Age: " + MyCow.getAge());
     }
-
 }
